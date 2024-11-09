@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: my-web-app
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python app.py"  # Remplacez app.py par le fichier d'entrée de votre projet
+    plan: free
+    regions:
+      - oregon
