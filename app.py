@@ -6,8 +6,7 @@ import requests
 import io
 from torchvision.models import ResNet18_Weights
 from flask_cors import CORS
-
-
+import os
 
 # Load the model with the updated weights parameter
 model = models.resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
@@ -56,6 +55,11 @@ def get_category_name(idx):
     return category_mapping.get(category_name, category_name)
 
 
+# Define the home route to prevent 404 errors
+@app.route('/')
+def home():
+    return jsonify({"message": "API is running. Use /predict for predictions."})
+
 # Define the API endpoint
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -76,4 +80,5 @@ def predict():
     return jsonify({"category": category})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    port = int(os.environ.get('PORT', 5000))  # Use the port provided by Render or 5000 as default
+    app.run(host='0.0.0.0', port=port, debug=True)
