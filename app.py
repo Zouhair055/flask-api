@@ -7,6 +7,8 @@ import io
 from torchvision.models import ResNet18_Weights
 from flask_cors import CORS
 import os
+import json  # Ajout de l'import pour JSON
+
 
 # Load the model with the updated weights parameter
 model = models.resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
@@ -26,13 +28,13 @@ def process_image(image):
     ])
     return transform(image).unsqueeze(0)
 
+# Charger le fichier de classes localement lors de l'initialisation
+with open('imagenet_class_index.json') as f:
+    class_idx = json.load(f)
+    
 # Function to get category name
 def get_category_name(idx):
-    url = "https://storage.googleapis.com/download.tensorflow.org/data/imagenet_class_index.json"
-    response = requests.get(url)
-    class_idx = response.json()
     category_name = class_idx[str(idx)][1]
-
     category_mapping = {
         "jersey": "t-shirt",
         "gown": "robe",
