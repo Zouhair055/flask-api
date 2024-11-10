@@ -80,6 +80,5 @@ def predict():
     return jsonify({"category": category})
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 10000))  # Modifié pour utiliser le port 10000
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run()
 
